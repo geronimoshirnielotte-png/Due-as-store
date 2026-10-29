@@ -1,0 +1,7 @@
+{
+  "name": "Dueñas Store - Integrated Warehouse & Inventory System",
+  "description": "Comprehensive warehouse and inventory management system designed for Dueñas Stores with real-time stock tracking, receiving and dispatch logs, expiration date alerts, warehouse bin slotting, and role-based authentication.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
