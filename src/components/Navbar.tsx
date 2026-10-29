@@ -12,6 +12,7 @@ import {
   Package,
   Layers,
   ArrowRight,
+  Crown,
 } from 'lucide-react';
 import { User, Product } from '../types/inventory';
 import { logoutUser, getProductStatus, quickLoginAsRole } from '../services/storage';
@@ -304,6 +305,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentUser, products, onNavigat
               </div>
             )}
           </div>
+
+          {currentUser.role === 'admin' && (
+            <button
+              type="button"
+              onClick={() => onNavigate('settings')}
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/30 text-purple-300 text-xs font-bold transition shadow-sm"
+              title="Admin Console & Security Settings"
+            >
+              <Crown className="w-3.5 h-3.5 text-purple-400" />
+              <span>Admin Console</span>
+            </button>
+          )}
 
           {/* User Profile Menu */}
           <div ref={userMenuRef} className="relative">

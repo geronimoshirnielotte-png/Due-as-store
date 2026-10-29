@@ -127,6 +127,41 @@ export const loginUser = (email: string, password: string): { success: boolean; 
   return { success: false, error: 'Invalid email address or password. Please verify credentials.' };
 };
 
+export const loginAdmin = (
+  email: string,
+  password: string,
+  securityPin?: string
+): { success: boolean; user?: User; error?: string } => {
+  const users = getUsers();
+  const matched = users.find(
+    (u) => u.email.toLowerCase() === email.trim().toLowerCase() && u.passwordHash === password
+  );
+
+  if (!matched) {
+    return { success: false, error: 'Invalid administrator email address or password.' };
+  }
+
+  if (matched.role !== 'admin') {
+    return {
+      success: false,
+      error: `Access Denied: Account "${matched.name}" has ${matched.role.toUpperCase()} role and does not possess Administrator clearance. Please sign in via the Staff portal.`,
+    };
+  }
+
+  // Optional Security PIN check (default master security PIN is 8899)
+  if (securityPin && securityPin.trim() !== '' && securityPin.trim() !== '8899') {
+    return { success: false, error: 'Invalid Administrator Security PIN. (Default Master PIN: 8899)' };
+  }
+
+  const updatedUser = {
+    ...matched,
+    lastLogin: new Date().toLocaleString(),
+  };
+  setCurrentUser(updatedUser);
+  return { success: true, user: updatedUser };
+};
+
+
 export const quickLoginAsRole = (role: 'admin' | 'manager' | 'staff'): User => {
   const users = getUsers();
   const matched = users.find((u) => u.role === role) || INITIAL_USERS[0];
